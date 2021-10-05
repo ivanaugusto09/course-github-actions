@@ -5,11 +5,7 @@ jobs:
   docker-steps:
     runs-on: ubuntu-latest
     container:
-      image: ivanaugusto9/axe-test-guia:latest
-      options: --user 1001
-      credentials:
-        username: ivanaugusto9
-        password: ${{  secrets.DOCKER_PASSWORD }}
+      image: node:10.18.0-jessie
     steps:
       - name: log node version
         run: node -v
@@ -24,7 +20,11 @@ jobs:
           entrypoint: /usr/local/bin/node
           args: -v
       - uses: actions/checkout@v1
-      
+      - name: Run a script
+        uses: docker://node:12.14.1-alpine3.10
+        with:
+          entrypoint: ./script.sh
+          args: "Some Strings"
   node-docker:
     runs-on: ubuntu-latest
     container: 
